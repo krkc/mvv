@@ -19,7 +19,7 @@ else
 		dir=$(dirname "$1");
 		mvcommand="$2";
 	elif [[ $# == 1 ]]; then
-		dir="./";
+		dir=".";
 		mvcommand="$1";
 	else
 		echo "No.";
@@ -32,8 +32,12 @@ else
 	do
 
 		# Rename files
-
-		if [[ $files =~ ^$(basename "$1") ]]; then
+		if [[ $# == 1 ]]; then
+			base="${files%.[^.]*}";
+			exten="${files:${#base}}";
+			mv "$dir/$files" "$dir/$mvcommand$count$exten";
+			(( count++ ));
+		elif [[ $files =~ ^$(basename "$1") ]]; then
 			base="${files%.[^.]*}";
 			exten="${files:${#base}}";
 			mv "$dir/$files" "$dir/$mvcommand$count$exten";
